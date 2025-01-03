@@ -1,0 +1,1 @@
+# Google API Proxy\n\nEste proyecto es un proxy para las APIs de Google, utilizando varias dependencias de PHP.

@@ -1,0 +1,45 @@
+{
+    "model": {
+        "shipments": [
+            {
+                "pickups": [
+                    {
+                        "arrivalLocation": {
+                            "latitude": 19.2452342,
+                            "longitude": -103.7240868
+                        }
+                    },
+                    {
+                        "arrivalLocation": {
+                            "latitude": 20.6751707,
+                            "longitude": -103.3473385
+                        }
+                    }
+                ],
+                "deliveries": [
+                    {
+                        "arrivalLocation": {
+                            "latitude": 20.6751707,
+                            "longitude": -103.3473385
+                        }
+                    }
+                ]
+            }
+        ],
+        "vehicles": [
+            {
+                "startLocation": {
+                    "latitude": 19.0536292,
+                    "longitude": -104.3170724
+                },
+                "endLocation": {
+                    "latitude": 20.6751707,
+                    "longitude": -103.3473385
+                },
+                "costPerKilometer": 1
+            }
+        ],
+        "globalStartTime": "2024-02-13T00:00:00.000Z",
+        "globalEndTime": "2024-02-14T06:00:00.000Z"
+    }
+}

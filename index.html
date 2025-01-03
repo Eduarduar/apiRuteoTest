@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planificador de ruta</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-6">
+      <div class="bg-white shadow-lg rounded-lg p-8 grid gap-8">
+        <!-- Título principal -->
+        <h1 class="text-3xl font-bold text-blue-600 text-center">
+          Calculadora de Ruta
+        </h1>
+
+        <div class="flex justify-center gap-4">
+          <div class="grid lg:grid-cols-2 flex-[0.7]">
+            <!-- Sección de inicio, destino y entregas -->
+            <div class="grid lg:grid-cols-2 gap-8 col-span-2">
+              <!-- Ubicación de Inicio y Destino -->
+              <div class="space-y-6 col-span-1">
+                <h2 class="text-2xl font-bold text-blue-600">Ubicaciones</h2>
+                <div>
+                  <label
+                    for="start-input"
+                    class="block text-sm font-medium text-gray-700"
+                    >Ubicación de Inicio</label
+                  >
+                  <input
+                    id="start-input"
+                    type="text"
+                    placeholder="Ingrese la ubicación de inicio"
+                    class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="destination-input"
+                    class="block text-sm font-medium text-gray-700"
+                    >Destino</label
+                  >
+                  <input
+                    id="destination-input"
+                    type="text"
+                    placeholder="Ingrese el destino"
+                    class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <!-- Agregar Entregas -->
+              <div class="space-y-6 col-span-1">
+                <h2 class="text-2xl font-bold text-green-600">
+                  Agregar Entregas
+                </h2>
+                <div>
+                  <label
+                    for="delivery-input"
+                    class="block text-sm font-medium text-gray-700"
+                    >Ubicación de Entrega</label
+                  >
+                  <input
+                    id="delivery-input"
+                    type="text"
+                    placeholder="Ingrese la ubicación de entrega"
+                    class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="gap-8 col-span-2">
+              <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-blue-600">
+                  Rendimiento de Gasolina
+                </h2>
+                <div>
+                  <label
+                    for="km-litro"
+                    class="block text-sm font-medium text-gray-700"
+                    >Kilómetros por Litro (km/L)</label
+                  >
+                  <input
+                    id="km-litro"
+                    type="number"
+                    placeholder="Ingrese los kilómetros por litro"
+                    class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="precio-gasolina"
+                    class="block text-sm font-medium text-gray-700"
+                    >Precio de la Gasolina (MXN)</label
+                  >
+                  <input
+                    id="precio-gasolina"
+                    type="number"
+                    placeholder="Ingrese el precio de la gasolina"
+                    class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-[0.3]">
+            <!-- Lista de Entregas -->
+            <div class="flex flex-col space-y-4 w-full">
+              <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-red-600">Ruta</h2>
+                <button
+                  id="clear-deliveries"
+                  type="button"
+                  class="bg-red-500 text-white py-2 px-4 rounded-md font-semibold hover:bg-red-600 transition"
+                >
+                  Limpiar
+                </button>
+              </div>
+              <ul
+                id="deliveries-ul"
+                class="flex-grow space-y-4 border border-gray-200 p-4 rounded-md max-h-[500px] overflow-y-auto min-h-[440px] max-h-[440px]"
+              >
+                <!-- Entregas dinámicas -->
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rendimiento de Gasolina -->
+
+        <!-- Botón Finalizar -->
+        <div class="flex justify-end">
+          <button
+            id="finalize-button"
+            type="button"
+            class="bg-blue-500 text-white py-2 px-6 rounded-md font-semibold hover:bg-blue-600 transition flex justify-center items-center gap-2 min-h-[40px] min-w-[150px]"
+          >
+            <span id="iconLoading" class="hidden">
+              <svg
+                width="25"
+                viewBox="0 0 120 30"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="white"
+                class="w-full h-full"
+              >
+                <circle cx="15" cy="15" r="15">
+                  <animate
+                    attributeName="r"
+                    from="15"
+                    to="15"
+                    begin="0s"
+                    dur="0.8s"
+                    values="15;9;15"
+                    calcMode="linear"
+                    repeatCount="indefinite"
+                  ></animate>
+                  <animate
+                    attributeName="fill-opacity"
+                    from="1"
+                    to="1"
+                    begin="0s"
+                    dur="0.8s"
+                    values="1;.5;1"
+                    calcMode="linear"
+                    repeatCount="indefinite"
+                  ></animate>
+                </circle>
+                <circle cx="60" cy="15" r="9" fill-opacity="0.3">
+                  <animate
+                    attributeName="r"
+                    from="9"
+                    to="9"
+                    begin="0s"
+                    dur="0.8s"
+                    values="9;15;9"
+                    calcMode="linear"
+                    repeatCount="indefinite"
+                  ></animate>
+                  <animate
+                    attributeName="fill-opacity"
+                    from="0.5"
+                    to="0.5"
+                    begin="0s"
+                    dur="0.8s"
+                    values=".5;1;.5"
+                    calcMode="linear"
+                    repeatCount="indefinite"
+                  ></animate>
+                </circle>
+                <circle cx="105" cy="15" r="15">
+                  <animate
+                    attributeName="r"
+                    from="15"
+                    to="15"
+                    begin="0s"
+                    dur="0.8s"
+                    values="15;9;15"
+                    calcMode="linear"
+                    repeatCount="indefinite"
+                  ></animate>
+                  <animate
+                    attributeName="fill-opacity"
+                    from="1"
+                    to="1"
+                    begin="0s"
+                    dur="0.8s"
+                    values="1;.5;1"
+                    calcMode="linear"
+                    repeatCount="indefinite"
+                  ></animate>
+                </circle>
+              </svg>
+            </span>
+            <span id="textButton">Calcular Ruta</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="mt-6 bg-white shadow-lg rounded-lg p-8 border border-gray-200 rounded-md text-sm text-gray-700"
+      >
+        <table
+          class="w-full border border-gray-300 rounded-md !w-full"
+          id="route-table"
+        >
+          <thead class="bg-green-500/30">
+            <tr>
+              <th class="hidden">indice</th>
+              <th class="border border-gray-300 p-2 text-xl">Viaje</th>
+              <th class="border border-gray-300 p-2 text-xl">Distancia</th>
+              <th class="border border-gray-300 p-2 text-xl">Horas</th>
+              <th class="border border-gray-300 p-2 text-xl">Combustible</th>
+              <th class="border border-gray-300 p-2 text-xl">
+                Total (conbustible)
+              </th>
+            </tr>
+          </thead>
+          <tbody id="route-table" id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdWF8em7IWMS0_de5dV9qi_a1SshCYBW4&libraries=places"
+      async
+      defer
+    ></script>
+    <script src="index.js" defer></script>
+  </body>
+</html>

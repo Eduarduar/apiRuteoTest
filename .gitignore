@@ -1,0 +1,51 @@
+# Archivos de sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos de usuario
+*.log
+*.tmp
+*.bak
+
+# Archivos de compilación
+bin/
+obj/
+out/
+
+# Archivos de configuración
+*.config
+*.settings
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos de dependencias
+node_modules/
+vendor/
+
+# Archivos de distribución
+dist/
+build/
+
+# Archivos de cobertura de pruebas
+coverage/
+*.lcov
+
+# Archivos de paquetes
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar

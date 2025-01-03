@@ -7,17 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const finalizeButton = document.getElementById("finalize-button");
   const clearDeliveriesButton = document.getElementById("clear-deliveries");
 
-  // Estado de las ubicaciones
   let startLocation = "";
   let destinationLocation = "";
   let deliveryPoints = [];
 
-  // Autocompletar para inicio y destino
   const autocompleteOptions = {
     fields: ["formatted_address", "geometry", "name", "place_id"],
   };
 
-  // verificamos si existe google, si no recargamos la pagina
   if (!window.google) {
     location.reload();
   }
@@ -35,9 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     autocompleteOptions
   );
 
-  // fanalizar el modelo
   finalizeButton.addEventListener("click", () => {
-    // validar que se haya seleccionado una ubicación de inicio y destino
     if (!startLocation) {
       alert("Por favor selecciona una ubicación de inicio.");
       return;
@@ -52,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const priceGas = $("#precio-gasolina").val();
 
     console.log(kmToLt, priceGas);
-    // validamos que no esten vacios los campos
     if (!kmToLt || !priceGas) {
       alert("Por favor ingrese los datos de rendimiento de su vehículo.");
       return;
@@ -61,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     optimizeTours(kmToLt, priceGas);
   });
 
-  // Actualizar inicio y destino
   startAutocomplete.addListener("place_changed", () => {
     const place = startAutocomplete.getPlace();
     if (place.geometry) {
@@ -106,31 +99,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Limpiar todas las entregas
   clearDeliveriesButton.addEventListener("click", () => {
     deliveryPoints = [];
     renderList();
   });
 
-  // Renderizar la lista de ubicaciones
   function renderList() {
     deliveriesList.innerHTML = "";
 
-    // Agregar inicio
     if (startLocation) {
       deliveriesList.appendChild(
         createListItem(`Inicio: ${startLocation.address}`, null, "start")
       );
     }
 
-    // Agregar entregas
     deliveryPoints.forEach((point, index) => {
       deliveriesList.appendChild(
         createListItem(`Parada: ${point.address}`, index, "delivery")
       );
     });
 
-    // Agregar destino
     if (destinationLocation) {
       deliveriesList.appendChild(
         createListItem(
@@ -142,12 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Crear un elemento de lista
   function createListItem(text, index = null, type = "delivery") {
     const li = document.createElement("li");
     li.className = "p-2 border rounded-md flex justify-between items-center";
 
-    // Aplicar estilos según el tipo
     if (type === "start") {
       li.className += " bg-green-100 border-green-500 text-green-700";
     } else if (type === "destination") {
@@ -156,12 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
       li.className += " bg-gray-50 border-gray-300";
     }
 
-    // Crear el contenido del elemento de lista
     const span = document.createElement("span");
     span.textContent = text;
     li.appendChild(span);
 
-    // Botón de eliminar para entregas
     if (type === "delivery") {
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "Eliminar";
@@ -200,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const origins = pointsRute[i];
         const destinations = pointsRute[i + 1];
 
-        // Validar que las ubicaciones tengan latitud y longitud
         if (
           !origins.latitude ||
           !origins.longitude ||
@@ -212,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         }
 
-        // Realizar la solicitud AJAX al servidor PHP
         const response = await $.ajax({
           url: "google-api-proxy/server.php",
           method: "POST",
@@ -223,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }),
         });
 
-        // Verificar que la respuesta sea válida
         if (
           !response.data ||
           !response.data.rows ||
@@ -238,9 +219,8 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        const distance = response.data.rows[0].elements[0].distance.value; // metros
-        const duration = response.data.rows[0].elements[0].duration.value; // segundos
-
+        const distance = response.data.rows[0].elements[0].distance.value;
+        const duration = response.data.rows[0].elements[0].duration.value;
         totalDistance += distance;
         totalDuration += duration;
 
@@ -256,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       }
 
-      // Agregar información de la ruta general
       logResult["Ruta General"] = {
         origen: startLocation.address,
         originName: startLocation.name,
@@ -268,7 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
         costoGas: (totalDistance / 1000 / kmToLt) * priceGas,
       };
 
-      // Insertar datos en la tabla
       clearDataTable();
       for (const key in logResult) {
         insertDataToTable(logResult[key], key);
@@ -283,10 +261,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function createDataTable() {
   const table = $("#route-table");
-
   const classTR = "border-b border-gray-200 min-h-20 h-20 text-xl";
 
-  // Configuración de DataTable
   table.dataTable({
     pageLength: 1000,
     lengthMenu: [
@@ -297,7 +273,7 @@ function createDataTable() {
     lengthChange: false,
     info: false,
     paging: false,
-    ordering: false, // Deshabilitar la opción de reordenar
+    ordering: false,
     columnDefs: [
       { className: "dt-center", targets: "_all" },
       {
@@ -305,11 +281,10 @@ function createDataTable() {
         visible: false,
       },
     ],
-    stripeClasses: [`${classTR} !bg-gray-100`, `${classTR} !bg-green-500/20`], // Alternar colores de filas
-    order: [[0, "asc"]], // Ordenar por la primera columna
+    stripeClasses: [`${classTR} !bg-gray-100`, `${classTR} !bg-green-500/20`],
+    order: [[0, "asc"]],
   });
 
-  // Limpiar la tabla antes de agregar datos
   table.DataTable().clear().draw();
 }
 
@@ -320,7 +295,6 @@ function clearDataTable() {
 
 function insertDataToTable(data, key) {
   console.log(data);
-  // va resivir solo un registro a la vez
   const table = $("#route-table").DataTable();
 
   const hours = Math.floor((data.duracion || 0) / 3600);

@@ -36,16 +36,13 @@
   <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto p-6">
       <div class="bg-white shadow-lg rounded-lg p-8 grid gap-8">
-        <!-- Título principal -->
         <h1 class="text-3xl font-bold text-blue-600 text-center">
           Calculadora de Ruta
         </h1>
 
         <div class="flex justify-center gap-4">
           <div class="grid lg:grid-cols-2 flex-[0.7]">
-            <!-- Sección de inicio, destino y entregas -->
             <div class="grid lg:grid-cols-2 gap-8 col-span-2">
-              <!-- Ubicación de Inicio y Destino -->
               <div class="space-y-6 col-span-1">
                 <h2 class="text-2xl font-bold text-blue-600">Ubicaciones</h2>
                 <div>
@@ -76,7 +73,6 @@
                 </div>
               </div>
 
-              <!-- Agregar Entregas -->
               <div class="space-y-6 col-span-1">
                 <h2 class="text-2xl font-bold text-green-600">
                   Agregar Entregas
@@ -132,7 +128,6 @@
             </div>
           </div>
           <div class="flex-[0.3]">
-            <!-- Lista de Entregas -->
             <div class="flex flex-col space-y-4 w-full">
               <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-red-600">Ruta</h2>
@@ -147,16 +142,11 @@
               <ul
                 id="deliveries-ul"
                 class="flex-grow space-y-4 border border-gray-200 p-4 rounded-md max-h-[500px] overflow-y-auto min-h-[440px] max-h-[440px]"
-              >
-                <!-- Entregas dinámicas -->
-              </ul>
+              ></ul>
             </div>
           </div>
         </div>
 
-        <!-- Rendimiento de Gasolina -->
-
-        <!-- Botón Finalizar -->
         <div class="flex justify-end">
           <button
             id="finalize-button"

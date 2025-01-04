@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const response = await $.ajax({
-          url: "google-api-proxy/server.php",
+          url: "google-api-proxy/travel_info.php",
           method: "POST",
           contentType: "application/json",
           data: JSON.stringify({
@@ -205,22 +205,16 @@ document.addEventListener("DOMContentLoaded", () => {
           }),
         });
 
-        if (
-          !response.data ||
-          !response.data.rows ||
-          !response.data.rows[0].elements[0].distance ||
-          !response.data.rows[0].elements[0].duration
-        ) {
-          if (response.data.rows[0].elements[0].status === "ZERO_RESULTS") {
-            alert("La ruta que intenta calcular no es válida.");
-          } else {
-            throw new Error("Datos inválidos devueltos por la API.");
-          }
-          return;
+        if (!response.data || !response.data[0]) {
+          throw new Error("Datos inválidos devueltos por la API.");
         }
 
-        const distance = response.data.rows[0].elements[0].distance.value;
-        const duration = response.data.rows[0].elements[0].duration.value;
+        const routeData = response.data[0];
+        const distance = routeData.distanceMeters;
+        const duration = parseInt(routeData.duration.replace("s", "")); // Convertir duración a segundos
+        const tollInfo = routeData.travelAdvisory?.tollInfo;
+        const tollCost = tollInfo?.estimatedPrice?.[0]?.units || 0; // Costo de peajes en MXN
+
         totalDistance += distance;
         totalDuration += duration;
 
@@ -233,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
           duracion: duration,
           gasTotal: distance / 1000 / kmToLt,
           costoGas: (distance / 1000 / kmToLt) * priceGas,
+          costoPeajes: parseFloat(tollCost),
         };
       }
 
@@ -245,6 +240,10 @@ document.addEventListener("DOMContentLoaded", () => {
         duracion: totalDuration,
         gasTotal: totalDistance / 1000 / kmToLt,
         costoGas: (totalDistance / 1000 / kmToLt) * priceGas,
+        costoPeajes: Object.values(logResult).reduce(
+          (sum, entry) => sum + (entry.costoPeajes || 0),
+          0
+        ),
       };
 
       clearDataTable();
@@ -322,7 +321,8 @@ function insertDataToTable(data, key) {
       `${(data.distancia || 0) / 1000} km`,
       durationText,
       `${(data.gasTotal || 0).toFixed(2)} litros`,
-      formattedCost,
+      `${formattedCost} MXN`,
+      `$${(data.costoPeajes || 0).toFixed(2)} MXN`,
     ])
     .draw()
     .node();

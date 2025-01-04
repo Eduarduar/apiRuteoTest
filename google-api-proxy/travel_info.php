@@ -36,28 +36,78 @@ if (!isset($data['origins']) || !isset($data['destinations'])) {
   exit;
 }
 
-$origins = $data['origins'];
-$destinations = $data['destinations'];
+$origins = explode(',', $data['origins']);
+$destinations = explode(',', $data['destinations']);
 
-$url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . urlencode($origins) . "&destinations=" . urlencode($destinations) . "&key=" . API_KEY;
+$requestData = [
+  "origins" => [
+    [
+      "waypoint" => [
+        "location" => [
+          "latLng" => [
+            "latitude" => (float)$origins[0],
+            "longitude" => (float)$origins[1]
+          ]
+        ]
+      ],
+      "routeModifiers" => [
+        "vehicleInfo" => [
+          "emissionType" => "DIESEL"
+        ]
+      ]
+    ]
+  ],
+  "destinations" => [
+    [
+      "waypoint" => [
+        "location" => [
+          "latLng" => [
+            "latitude" => (float)$destinations[0],
+            "longitude" => (float)$destinations[1]
+          ]
+        ]
+      ]
+    ]
+  ],
+  "travelMode" => "DRIVE",
+  "extraComputations" => ["TOLLS"]
+];
+
+$url = 'https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix';
+
+$headers = [
+  'Content-Type: application/json',
+  'X-Goog-Api-Key: ' . API_KEY,
+  'X-Goog-FieldMask: originIndex,destinationIndex,travel_advisory.tollInfo,duration,distanceMeters,status'
+];
+
+$options = [
+  'http' => [
+    'method'  => 'POST',
+    'header'  => implode("\r\n", $headers),
+    'content' => json_encode($requestData),
+    'timeout' => 60
+  ]
+];
+
+$context = stream_context_create($options);
 
 try {
-  $response = file_get_contents($url);
+  $response = file_get_contents($url, false, $context);
   if ($response === FALSE) {
     throw new Exception("No se pudo conectar a la API de Google.");
   }
 
-  $data = json_decode($response, true);
+  $decodedResponse = json_decode($response, true);
 
   echo json_encode([
     "status" => "ok",
     "message" => "Datos obtenidos correctamente.",
     "error" => null,
-    "data" => $data
+    "data" => $decodedResponse
   ]);
   http_response_code(200);
 } catch (Exception $e) {
-  // Manejo de errores
   echo json_encode([
     "status" => "error",
     "message" => "Ocurrió un error al obtener datos de la API.",

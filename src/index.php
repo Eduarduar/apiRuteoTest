@@ -25,7 +25,7 @@
       </h1>
 
       <div class="grid grid-cols-4 justify-center gap-4">
-        <div class="grid grid-cols-2 col-span-4 lg:col-span-3 gap-2">
+        <div class="grid grid-cols-2 col-span-4 2xl:col-span-3 gap-2">
           <div class="grid lg:grid-cols-2 gap-8 col-span-2">
             <div class="space-y-6 col-span-2 lg:col-span-1">
               <h2 class="text-2xl font-bold text-blue-600">Ubicaciones</h2>
@@ -73,7 +73,7 @@
               <h2 class="text-2xl font-bold text-blue-600">
                 Vehículo
               </h2>
-              <div class="flex flex-row items-center space-x-4">
+              <div class="flex flex-col sm:flex-row sm:items-center space-x-4">
                 <!-- imagen del vehiculo -->
                 <div class="flex-[0.3] flex justify-center items-center min-h-[100px] border py-2 rounded-lg bg-blue-500/10">
                   <img
@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-4 lg:col-span-1">
+        <div class="col-span-4 2xl:col-span-1">
           <div class="flex flex-col space-y-4 w-full h-full">
             <div class="flex justify-between items-center">
               <h2 class="text-2xl font-bold text-red-600">Ruta</h2>
@@ -112,7 +112,7 @@
                 id="clear-deliveries"
                 type="button"
                 class="bg-red-500 text-white py-2 px-4 rounded-md font-semibold hover:bg-red-600 transition">
-                Eliminar Paradas
+                <?php include './assets/svg/trash.svg'; ?>
               </button>
             </div>
             <ul
@@ -126,11 +126,11 @@
         <button
           id="finalize-button"
           type="button"
-          class="bg-blue-500 text-white py-2 px-6 rounded-md font-semibold hover:bg-blue-600 transition flex justify-center items-center gap-2 min-h-[40px] min-w-[150px]">
+          class="bg-blue-500 text-white py-2 px-6 rounded-md font-semibold hover:bg-blue-600 transition flex flex-row justify-center items-center gap-2 min-h-[40px] min-w-[180px]">
           <span id="iconLoading" class="hidden">
             <?php include './assets/svg/loading.svg'; ?>
           </span>
-          <span id="textButton">Calcular Ruta</span>
+          <span id="textButton" class="flex flex-row justify-between items-center w-full"><?php include './assets/svg/check.svg'; ?>Calcular Ruta</span>
         </button>
       </div>
     </div>

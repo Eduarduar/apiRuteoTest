@@ -37,44 +37,6 @@ if (!isset($data['startLocation']) || !isset($data['destinationLocation']) || !i
     exit;
 }
 
-// simulamos que recibimos un json con la siguiente estructura
-// $data = [
-//     "startLocation" => [
-//         "latitude" => 19.0536292,
-//         "longitude" => -104.3170724,
-//         "address" => "Manzanillo, Col., México",
-//         "name" => "Manzanillo"
-//     ],
-//     "destinationLocation" => [
-//         "latitude" => 20.6751707,
-//         "longitude" => -103.3473385,
-//         "address" => "Guadalajara, Jalisco, México",
-//         "name" => "Guadalajara"
-//     ],
-//     "deliveryPoints" => [
-//         [
-//             "latitude" => 18.9173829,
-//             "longitude" => -103.8738031,
-//             "address" => "Tecomán, Col., México",
-//             "name" => "Tecomán"
-//         ],
-//         [
-//             "latitude" => 19.2452342,
-//             "longitude" => -103.7240868,
-//             "address" => "Colima, Col., México",
-//             "name" => "Colima"
-//         ],
-//         [
-//             "latitude" => 19.8786995,
-//             "longitude" => -103.5986529,
-//             "address" => "Sayula, Jalisco, México",
-//             "name" => "Sayula"
-//         ]
-//     ],
-//     "axles" => 2
-// ];
-
-
 $from = $data['startLocation'];
 $to = $data['destinationLocation'];
 $waypoints = $data['deliveryPoints'];
@@ -101,8 +63,6 @@ $requestData = [
         "type" => $axles . "AxlesTruck"
     ],
 ];
-
-// echo json_encode($requestData);
 
 $curl = curl_init();
 

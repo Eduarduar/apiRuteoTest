@@ -10,9 +10,16 @@ export function renderResponse(data) {
     class: "flex flex-col",
   }).append(
     $("<span></span>", {
-      class: "text-2xl font-bold text-blue-600",
+      class:
+        "text-2xl font-bold text-blue-600 flex flex-row justify-start items-center gap-1",
       text: "Rutas",
-    }),
+    }).append(
+      $("<img>", {
+        src: "assets/svg/option.svg",
+        alt: "Icono de rutas",
+        class: "w-4 h-4",
+      })
+    ),
     $("<span></span>", {
       class: "text-sm font-semibold text-gray-500",
       text: "(Selecciona una ruta para ver la información)",

@@ -28,7 +28,7 @@
         <div class="grid grid-cols-2 col-span-4 2xl:col-span-3 gap-2">
           <div class="grid lg:grid-cols-2 gap-8 col-span-2">
             <div class="space-y-6 col-span-2 lg:col-span-1">
-              <h2 class="text-2xl font-bold text-blue-600">Ubicaciones</h2>
+              <h2 class="text-2xl font-bold text-blue-600 flex flex-row justify-start items-center gap-1">Ubicaciones<?php include './assets/svg/mapPin.svg'; ?></h2>
               <div>
                 <label
                   for="start-input"
@@ -52,8 +52,8 @@
             </div>
 
             <div class="space-y-6 col-span-2 lg:col-span-1">
-              <h2 class="text-2xl font-bold text-green-600">
-                Agregar Paradas
+              <h2 class="text-2xl font-bold text-green-600 flex flex-row items-center justify-start gap-1">
+                Agregar Paradas<?php include './assets/svg/mapPinCheck.svg'; ?>
               </h2>
               <div>
                 <label
@@ -70,8 +70,8 @@
 
           <div class="gap-8 col-span-2">
             <div class="space-y-6">
-              <h2 class="text-2xl font-bold text-blue-600">
-                Vehículo
+              <h2 class="text-2xl font-bold text-blue-600 flex flex-row justify-start items-center gap-1">
+                Vehículo<?php include './assets/svg/truck.svg'; ?>
               </h2>
               <div class="flex flex-col sm:flex-row sm:items-center space-x-4">
                 <!-- imagen del vehiculo -->
@@ -107,7 +107,7 @@
         <div class="col-span-4 2xl:col-span-1">
           <div class="flex flex-col space-y-4 w-full h-full">
             <div class="flex justify-between items-center">
-              <h2 class="text-2xl font-bold text-red-600">Ruta</h2>
+              <h2 class="text-2xl font-bold text-red-600 flex flex-row items-center justify-start gap-1">Ruta<?php include './assets/svg/route.svg'; ?></h2>
               <button
                 id="clear-deliveries"
                 type="button"

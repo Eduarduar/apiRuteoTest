@@ -42,33 +42,34 @@ btnFinalize.on("click", () => {
   };
 
   // consulta a un archivo json
-  // $.ajax({
-  //   type: "GET",
-  //   url: "../server/response test.json",
-  //   dataType: "json",
-  //   success: function (response) {
-  //     renderResponse(response);
-  //     toggleIconLoading();
-  //   },
-  //   error: function (error) {
-  //     // toggleIconLoading();
-  //     alert("Ocurrió un error al intentar crear el envío.");
-  //   },
-  // });
-
   $.ajax({
-    type: "POST",
-    url: "../server/travel_info.php",
-    data: JSON.stringify(data),
-    contentType: "application/json",
+    type: "GET",
+    // url: "../server/monterrey_cdmx.json",
+    url: "../server/cdmx_colima_queretaro.json",
+    dataType: "json",
     success: function (response) {
-      $("#containerResponse").remove();
       renderResponse(response);
       toggleIconLoading();
     },
     error: function (error) {
-      toggleIconLoading();
+      // toggleIconLoading();
       alert("Ocurrió un error al intentar crear el envío.");
     },
   });
+
+  // $.ajax({
+  //   type: "POST",
+  //   url: "../server/travel_info.php",
+  //   data: JSON.stringify(data),
+  //   contentType: "application/json",
+  //   success: function (response) {
+  //     $("#containerResponse").remove();
+  //     renderResponse(response);
+  //     toggleIconLoading();
+  //   },
+  //   error: function (error) {
+  //     toggleIconLoading();
+  //     alert("Ocurrió un error al intentar crear el envío.");
+  //   },
+  // });
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
 
 <head>
   <meta charset="UTF-8" />
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="assets/css/tailwind.css" />
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 min-h-screen h-full scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
   <div class=" w-full lg:!container lg:mx-auto p-6" id="app">
     <div class="bg-white shadow-lg rounded-lg p-8 grid gap-8">
       <h1 class="text-3xl font-bold text-blue-600 text-center">

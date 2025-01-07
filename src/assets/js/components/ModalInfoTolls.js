@@ -32,7 +32,8 @@ export function createModalInfoTolls(tolls, id) {
   );
 
   const modalBody = $("<div></div>", {
-    class: "modal-body",
+    class:
+      "modal-body scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar",
   });
 
   const grid = $("<div></div>", {

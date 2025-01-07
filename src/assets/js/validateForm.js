@@ -31,7 +31,7 @@ function validateForm() {
 }
 
 btnFinalize.on("click", () => {
-  if (!validateForm()) return;
+  // if (!validateForm()) return;
   toggleIconLoading();
 
   const data = {

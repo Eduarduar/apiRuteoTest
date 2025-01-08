@@ -1,12 +1,33 @@
+import { deleteResponse } from "./renderResponse.js";
+
 const startInput = document.getElementById("start-input");
 const destinationInput = document.getElementById("destination-input");
 const deliveryInput = document.getElementById("delivery-input");
 const deliveriesList = document.getElementById("deliveries-ul");
 const clearDeliveriesButton = document.getElementById("clear-deliveries");
+const modalApiruteo = document.getElementById("Modal-ApiRuteo");
 
 export let startLocation = "";
 export let destinationLocation = "";
 export let deliveryPoints = [];
+
+export function resetForm() {
+  deleteResponse();
+  startLocation = "";
+  destinationLocation = "";
+  deliveryPoints = [];
+  startInput.value = "";
+  destinationInput.value = "";
+  deliveryInput.value = "";
+  renderList();
+}
+
+function closeModalAndResetForm() {
+  resetForm();
+  $("#Modal-ApiRuteo").modal("hide");
+}
+
+modalApiruteo.addEventListener("hidden.bs.modal", closeModalAndResetForm);
 
 const autocompleteOptions = {
   fields: ["formatted_address", "geometry", "name", "place_id"],
@@ -73,9 +94,11 @@ async function loadAutoComplete() {
       deliveryInput.value = "";
       renderList();
     } else {
-      alert(
-        "Por favor selecciona una ubicación válida de la lista desplegable."
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Ubicación no válida",
+        text: "Por favor selecciona una ubicación válida de la lista desplegable.",
+      });
     }
   });
 

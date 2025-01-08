@@ -5,6 +5,8 @@ export function createModalInfoTolls(tolls, id) {
     tabindex: "-1",
     "aria-labelledby": `modal-${id}`,
     "aria-hidden": "true",
+    "data-bs-backdrop": "static",
+    "data-bs-keyboard": "false",
   });
 
   const modalDialog = $("<div></div>", {
@@ -33,7 +35,7 @@ export function createModalInfoTolls(tolls, id) {
 
   const modalBody = $("<div></div>", {
     class:
-      "modal-body scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar",
+      "modal-body scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full",
   });
 
   const grid = $("<div></div>", {
@@ -103,18 +105,7 @@ export function createModalInfoTolls(tolls, id) {
 
   modalBody.append(grid);
 
-  const modalFooter = $("<div></div>", {
-    class: "modal-footer",
-  }).append(
-    $("<button></button>", {
-      type: "button",
-      class: "btn btn-secondary",
-      "data-bs-dismiss": "modal",
-      text: "Cerrar",
-    })
-  );
-
-  modalContent.append(modalHeader, modalBody, modalFooter);
+  modalContent.append(modalHeader, modalBody);
   modalDialog.append(modalContent);
   modal.append(modalDialog);
 

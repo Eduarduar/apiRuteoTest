@@ -50,7 +50,12 @@ export function renderMapRoute(route, index, containerMapRoute) {
     class: "p-2 bg-yellow-600 text-white rounded z-10",
     click: () => {
       navigator.clipboard.writeText(route.summary.url).then(() => {
-        alert("Link copiado al portapapeles");
+        Swal.fire({
+          icon: "success",
+          title: "Link copiado",
+          text: "El link ha sido copiado al portapapeles",
+          timer: 1000,
+        });
       });
     },
   });
@@ -77,9 +82,7 @@ export function renderMapRoute(route, index, containerMapRoute) {
   container.append(title);
   container.append(containerButtons);
   container.append(iframe);
-  setTimeout(() => {
-    containerMapRoute.append(container);
-  }, 300);
+  containerMapRoute.append(container);
 }
 
 function convertMapsLink(originalUrl, apiKey) {

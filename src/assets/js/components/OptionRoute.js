@@ -4,7 +4,7 @@ export function renderInfoRoute(route, summary, index) {
   const existTolls = route.tolls.length > 0;
 
   const containerResponse = $("<div></div>", {
-    class: "flex flex-col border rounded-2xl p-2 w-full h-full",
+    class: "flex flex-col w-full h-full",
     id: "containerInfoRoute",
   });
 
@@ -70,8 +70,9 @@ export function renderInfoRoute(route, summary, index) {
     const ButtonTolls = $("<button></button>", {
       class:
         "flex items-center justify-between p-4 rounded-lg bg-blue-500/10 hover:bg-blue-100 transition-all duration-300 ease-in-out transform hover:scale-[1.02]",
-      "data-bs-toggle": "modal",
-      "data-bs-target": `#modal-${index}`,
+      click: () => {
+        $(`#modal-${index}`).modal("show");
+      },
     });
 
     const label = $("<h3></h3>", {

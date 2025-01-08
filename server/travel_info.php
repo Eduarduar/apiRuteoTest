@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['startLocation']) || !isset($data['destinationLocation']) || !isset($data['deliveryPoints']) || !isset($data['axles'])) {
+if (!isset($data['startLocation']) || !isset($data['destinationLocation']) || !isset($data['deliveryPoints']) || !isset($data['axles']) || !isset($data['tolls'])) {
     echo json_encode([
         "status" => "error",
         "message" => "Faltan los parámetros necesarios: 'origins' y 'destinations'.",
@@ -41,6 +41,7 @@ $from = $data['startLocation'];
 $to = $data['destinationLocation'];
 $waypoints = $data['deliveryPoints'];
 $axles = $data['axles'];
+$tolls = $data['tolls'];
 
 
 $requestData = [
@@ -62,7 +63,9 @@ $requestData = [
     "vehicle" => [
         "type" => $axles . "AxlesTruck"
     ],
+    "allowTolls" => $tolls
 ];
+
 
 $curl = curl_init();
 

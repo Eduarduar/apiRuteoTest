@@ -1,16 +1,19 @@
 import { createOptionRoute } from "./components/OptionsRoutes.js";
 import { renderInfoRoute } from "./components/OptionRoute.js";
 
-export function renderResponse(data) {
-  const app = $("#app");
-
+export function deleteResponse() {
   if ($("#containerResponse")) {
     $("#containerResponse").remove();
   }
+}
+
+export function renderResponse(data) {
+  const app = $("#app");
+
+  deleteResponse();
 
   const containerResponse = $("<div></div>", {
-    class:
-      "flex flex-col gap-4 mt-6 bg-white shadow-lg rounded-lg p-8 border border-gray-200 text-sm text-gray-700",
+    class: "flex flex-col gap-4 mt-6 bg-white text-sm text-gray-700",
     id: "containerResponse",
   });
   const header = $("<h2></h2>", {
@@ -40,7 +43,7 @@ export function renderResponse(data) {
     id: "containerOptionsRoutes",
   });
 
-  // creamos las opciones de rutas
+  containerResponse.append(containerOptionsRoutes);
   data.routes.forEach((route, index) => {
     const optionRoute = createOptionRoute(
       route,
@@ -52,12 +55,9 @@ export function renderResponse(data) {
     if (index === 0) {
       optionRoute.click();
       const inforRoute = renderInfoRoute(route, data.summary, index);
-      setTimeout(() => {
-        containerOptionsRoutes.after(inforRoute);
-      }, 100);
+      containerOptionsRoutes.after(inforRoute);
     }
   });
 
-  containerResponse.append(containerOptionsRoutes);
   app.append(containerResponse);
 }

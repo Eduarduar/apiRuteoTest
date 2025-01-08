@@ -22,7 +22,8 @@ export function resetForm() {
   renderList();
 }
 
-function closeModalAndResetForm() {
+function closeModalAndResetForm(e) {
+  if (e.target !== modalApiruteo) return;
   resetForm();
   $("#Modal-ApiRuteo").modal("hide");
 }
